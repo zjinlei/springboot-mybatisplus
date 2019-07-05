@@ -1,0 +1,21 @@
+<component name="ArtifactManager">
+  <artifact type="exploded-war" name="account:war exploded">
+    <output-path>$PROJECT_DIR$/account/target/account-0.0.1-SNAPSHOT</output-path>
+    <root id="root">
+      <element id="directory" name="WEB-INF">
+        <element id="directory" name="classes">
+          <element id="module-output" name="account" />
+        </element>
+        <element id="directory" name="lib">
+          <element id="library" level="project" name="Maven: com.cloudhelios.atlantis:helios-core:unknown" />
+          <element id="library" level="project" name="Maven: io.seata:seata-spring:unknown" />
+          <element id="library" level="project" name="Maven: mysql:mysql-connector-java:8.0.16" />
+        </element>
+      </element>
+      <element id="directory" name="META-INF">
+        <element id="file-copy" path="$PROJECT_DIR$/account/target/account-0.0.1-SNAPSHOT/META-INF/MANIFEST.MF" />
+      </element>
+      <element id="javaee-facet-resources" facet="account/web/Web" />
+    </root>
+  </artifact>
+</component>

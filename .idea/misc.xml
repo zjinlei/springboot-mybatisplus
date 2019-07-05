@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project version="4">
+  <component name="FrameworkDetectionExcludesConfiguration">
+    <file type="web" url="file://$PROJECT_DIR$/account" />
+    <file type="web" url="file://$PROJECT_DIR$/business" />
+    <file type="web" url="file://$PROJECT_DIR$/order" />
+    <file type="web" url="file://$PROJECT_DIR$/storage" />
+  </component>
+  <component name="MavenProjectsManager">
+    <option name="originalFiles">
+      <list>
+        <option value="$PROJECT_DIR$/pom.xml" />
+        <option value="$PROJECT_DIR$/sbmbp-order/pom.xml" />
+        <option value="$PROJECT_DIR$/sbmbp-storage/pom.xml" />
+        <option value="$PROJECT_DIR$/account/pom.xml" />
+        <option value="$PROJECT_DIR$/order/pom.xml" />
+        <option value="$PROJECT_DIR$/storage/pom.xml" />
+        <option value="$PROJECT_DIR$/business/pom.xml" />
+        <option value="$PROJECT_DIR$/common/pom.xml" />
+      </list>
+    </option>
+    <option name="ignoredFiles">
+      <set>
+        <option value="$PROJECT_DIR$/sbmbp-account/pom.xml" />
+        <option value="$PROJECT_DIR$/sbmbp-order/pom.xml" />
+        <option value="$PROJECT_DIR$/sbmbp-storage/pom.xml" />
+        <option value="$PROJECT_DIR$/sbmbp-user/pom.xml" />
+      </set>
+    </option>
+  </component>
+  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+    <output url="file://$PROJECT_DIR$/out" />
+  </component>
+</project>
