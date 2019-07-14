@@ -7,8 +7,10 @@ import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.context.annotation.Primary;
+import org.springframework.core.io.support.ResourcePatternResolver;
 
 import javax.sql.DataSource;
+import java.io.IOException;
 
 @Configuration
 public class DataBaseConfiguration {
@@ -28,9 +30,10 @@ public class DataBaseConfiguration {
 
 
     @Bean
-    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSourceProxy druidDataSource) {
+    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSourceProxy druidDataSource, ResourcePatternResolver resourcePatternResolver) throws IOException {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         mybatisSqlSessionFactoryBean.setDataSource(druidDataSource);
+        mybatisSqlSessionFactoryBean.setMapperLocations(resourcePatternResolver.getResources("classpath:mapper/*.xml"));
         return mybatisSqlSessionFactoryBean;
     }
 }
