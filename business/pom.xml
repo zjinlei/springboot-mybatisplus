@@ -27,10 +27,6 @@
 			<artifactId>common</artifactId>
 		</dependency>
 		<dependency>
-			<groupId>io.seata</groupId>
-			<artifactId>seata-spring</artifactId>
-		</dependency>
-		<dependency>
 			<groupId>mysql</groupId>
 			<artifactId>mysql-connector-java</artifactId>
 		</dependency>
