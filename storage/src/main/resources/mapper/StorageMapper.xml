@@ -18,4 +18,15 @@
     </foreach>
   </insert>
 
+  <update id="updateBatch"  >
+    <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >-->
+    <!--SELECT LAST_INSERT_ID()-->
+    <!--</selectKey>-->
+    update storage_tbl set count = 100
+    WHERE id IN
+    <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
+      #{item}
+  </foreach>
+    and commodity_code = #{commodityCode,jdbcType=VARCHAR}
+  </update>
 </mapper>

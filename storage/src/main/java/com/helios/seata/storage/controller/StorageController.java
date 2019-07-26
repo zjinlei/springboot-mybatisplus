@@ -6,6 +6,8 @@ import io.seata.core.context.RootContext;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import java.sql.SQLException;
+
 @RequestMapping("/api/storage")
 @RestController
 public class StorageController {
@@ -14,7 +16,7 @@ public class StorageController {
     StorageService storageService;
 
     @GetMapping(value = "/deduct")
-    public void deduct(@RequestParam String commodityCode, @RequestParam Integer count) {
+    public void deduct(@RequestParam String commodityCode, @RequestParam Integer count) throws SQLException {
         System.out.println("storage XID " + RootContext.getXID());
         storageService.deduct(commodityCode, count);
     }
@@ -23,4 +25,23 @@ public class StorageController {
     public Storage getById(@PathVariable("id") Long id) {
         return storageService.get(id);
     }
+
+    @GetMapping(value = "/batch/update/mulity")
+    public void batchUpdateMulityCond() {
+        try {
+            storageService.batchUpdateMulityCond();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
+    @GetMapping(value = "/batch/delete/mulity")
+    public void batchDeleteMulityCond() {
+        try {
+            storageService.batchDeleteMulityCond();
+        } catch (SQLException e) {
+            e.printStackTrace();
+        }
+    }
+
 }

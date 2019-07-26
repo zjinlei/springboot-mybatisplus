@@ -36,7 +36,11 @@
 			<groupId>io.seata</groupId>
 			<artifactId>seata-spring</artifactId>
 		</dependency>
-	</dependencies>
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
 
 	<build>
 		<plugins>

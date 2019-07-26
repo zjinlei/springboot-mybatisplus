@@ -1,10 +1,7 @@
 package com.helios.seata.storage.persistence;
 
 import com.baomidou.mybatisplus.mapper.BaseMapper;
-import org.apache.ibatis.annotations.Mapper;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.ResultType;
-import org.apache.ibatis.annotations.Select;
+import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
@@ -16,4 +13,6 @@ public interface StorageMapper extends BaseMapper<Storage> {
     Storage findByCommodityCode(@Param("commodityCode") String commodityCode);
 
     void insertBatch(List<Storage> records);
+
+    int updateBatch(@Param("list") List<Long> ids,@Param("commodityCode") String commodityCode);
 }
