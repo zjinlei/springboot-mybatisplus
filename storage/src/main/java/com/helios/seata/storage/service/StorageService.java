@@ -7,12 +7,12 @@ import io.seata.spring.annotation.GlobalLock;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.util.Arrays;
 
 @Service
 public class StorageService extends ServiceImpl<StorageMapper, Storage> {
@@ -23,20 +23,40 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
     @Autowired
     private DataSource dataSource;
 
-    @Transactional
+    @GlobalTransactional
     public void deduct(String commodityCode, int count) {
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
         storageMapper.updateById(storage);
+        System.out.println(1 / 0);
     }
 
     @GlobalLock
     public Storage get(Long id) {
         Storage storage = storageMapper.selectById(id);
-        storage.setCount(storage.getCount() -10);
+        storage.setCount(storage.getCount() - 10);
         storageMapper.updateById(storage);
         return storageMapper.selectById(id);
     }
+
+    @GlobalTransactional
+    public void batchInsert() {
+        Storage storage1 = new Storage();
+        storage1.setId(123l);
+        storage1.setCommodityCode("9001");
+        storage1.setCount(11);
+        Storage storage2 = new Storage();
+        storage2.setId(223l);
+        storage2.setCommodityCode("9002");
+        storage2.setCount(22);
+        Storage storage3 = new Storage();
+        storage3.setId(323l);
+        storage3.setCommodityCode("9003");
+        storage3.setCount(33);
+        storageMapper.insertBatch(Arrays.asList(storage1, storage2, storage3));
+        System.out.println(1 / 0);
+    }
+
     @GlobalTransactional
     public void batchUpdateMulityCond() throws SQLException {
         Connection connection = null;
@@ -45,17 +65,17 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
             String sql = "update storage_tbl set count = ?" +
-                    "    where id = ? and commodity_code = ?";
+                "    where id = ? and commodity_code = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setInt(1, 100);
+            preparedStatement.setInt(1, 10);
             preparedStatement.setLong(2, 1);
             preparedStatement.setString(3, "2001");
             preparedStatement.addBatch();
-            preparedStatement.setInt(1, 200);
+            preparedStatement.setInt(1, 20);
             preparedStatement.setLong(2, 2);
             preparedStatement.setString(3, "2002");
             preparedStatement.addBatch();
-            preparedStatement.setInt(1, 300);
+            preparedStatement.setInt(1, 30);
             preparedStatement.setLong(2, 3);
             preparedStatement.setString(3, "2003");
             preparedStatement.addBatch();
@@ -69,6 +89,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             preparedStatement.close();
         }
     }
+
     @GlobalTransactional
     public void batchDeleteMulityCond() throws SQLException {
         Connection connection = null;
@@ -76,15 +97,15 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         try {
             connection = dataSource.getConnection();
             connection.setAutoCommit(false);
-            String sql = "delete from storage_tbl where id = ? and commodity_code = ?";
+            String sql = "delete from storage_tbl where  count = ? and commodity_code = ?";
             preparedStatement = connection.prepareStatement(sql);
-            preparedStatement.setLong(1, 1);
+            preparedStatement.setInt(1, 11);
             preparedStatement.setString(2, "2001");
             preparedStatement.addBatch();
-            preparedStatement.setLong(1, 2);
+            preparedStatement.setInt(1, 22);
             preparedStatement.setString(2, "2002");
             preparedStatement.addBatch();
-            preparedStatement.setLong(1, 3);
+            preparedStatement.setInt(1, 33);
             preparedStatement.setString(2, "2003");
             preparedStatement.addBatch();
             preparedStatement.executeBatch();

@@ -15,6 +15,7 @@
  */
 package io.seata.rm.datasource.exec;
 
+import com.alibaba.druid.util.JdbcConstants;
 import io.seata.core.context.RootContext;
 import io.seata.rm.datasource.ConnectionProxy;
 import io.seata.rm.datasource.StatementProxy;
@@ -23,6 +24,7 @@ import io.seata.rm.datasource.sql.SQLType;
 import io.seata.rm.datasource.sql.struct.Field;
 import io.seata.rm.datasource.sql.struct.TableMeta;
 import io.seata.rm.datasource.sql.struct.TableMetaCache;
+import io.seata.rm.datasource.sql.struct.TableMetaCacheOracle;
 import io.seata.rm.datasource.sql.struct.TableRecords;
 import io.seata.rm.datasource.undo.SQLUndoLog;
 
@@ -150,8 +152,13 @@ public abstract class BaseTransactionalExecutor<T, S extends Statement> implemen
      * @return the table meta
      */
     protected TableMeta getTableMeta(String tableName) {
-        if (tableMeta == null) {
-             tableMeta = TableMetaCache.getTableMeta(statementProxy.getConnectionProxy().getDataSourceProxy(), tableName);
+        if (tableMeta != null) {
+            return tableMeta;
+        }
+        if(JdbcConstants.ORACLE.equalsIgnoreCase(statementProxy.getConnectionProxy().getDbType())) {
+            tableMeta = TableMetaCacheOracle.getTableMeta(statementProxy.getConnectionProxy().getDataSourceProxy(), tableName);
+        } else {
+            tableMeta = TableMetaCache.getTableMeta(statementProxy.getConnectionProxy().getDataSourceProxy(), tableName);
         }
         return tableMeta;
     }

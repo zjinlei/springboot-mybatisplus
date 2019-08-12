@@ -16,13 +16,20 @@
 package io.seata.rm.datasource;
 
 import com.alibaba.druid.util.JdbcUtils;
+import io.seata.common.thread.NamedThreadFactory;
 import io.seata.core.model.BranchType;
 import io.seata.core.model.Resource;
 import io.seata.rm.DefaultResourceManager;
+import io.seata.rm.datasource.sql.struct.TableMetaCache;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 
 import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.SQLException;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.ScheduledThreadPoolExecutor;
+import java.util.concurrent.TimeUnit;
 
 /**
  * The type Data source proxy.
@@ -31,6 +38,8 @@ import java.sql.SQLException;
  */
 public class DataSourceProxy extends AbstractDataSourceProxy implements Resource {
 
+    private static final Logger logger = LoggerFactory.getLogger(DataSourceProxy.class);
+
     private String resourceGroupId;
 
     private static final String DEFAULT_RESOURCE_GROUP_ID = "DEFAULT";
@@ -38,6 +47,12 @@ public class DataSourceProxy extends AbstractDataSourceProxy implements Resource
     private String jdbcUrl;
 
     private String dbType;
+    /**
+     * Table meta checker interval
+     */
+    private static final long TABLE_MATA_CHECKER_INTERVAL = 60000L;
+
+    private final ScheduledExecutorService tableMetaExcutor = new ScheduledThreadPoolExecutor(1, new NamedThreadFactory("tableMetaChecker", 1, true));
 
     /**
      * Instantiates a new Data source proxy.
@@ -68,6 +83,12 @@ public class DataSourceProxy extends AbstractDataSourceProxy implements Resource
             throw new IllegalStateException("can not init dataSource", e);
         }
         DefaultResourceManager.get().registerResource(this);
+        tableMetaExcutor.scheduleAtFixedRate(new Runnable() {
+            @Override
+            public void run() {
+                TableMetaCache.refresh(DataSourceProxy.this);
+            }
+        }, 0, TABLE_MATA_CHECKER_INTERVAL, TimeUnit.MILLISECONDS);
     }
 
     /**

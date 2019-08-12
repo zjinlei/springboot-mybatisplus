@@ -4,7 +4,11 @@ import com.helios.seata.storage.persistence.Storage;
 import com.helios.seata.storage.service.StorageService;
 import io.seata.core.context.RootContext;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.web.bind.annotation.*;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.bind.annotation.RestController;
 
 import java.sql.SQLException;
 
@@ -24,6 +28,11 @@ public class StorageController {
     @GetMapping(value = "/get/{id}")
     public Storage getById(@PathVariable("id") Long id) {
         return storageService.get(id);
+    }
+
+    @GetMapping(value = "/batch/insert")
+    public void batchInsert() {
+        storageService.batchInsert();
     }
 
     @GetMapping(value = "/batch/update/mulity")

@@ -13,31 +13,32 @@
  *  See the License for the specific language governing permissions and
  *  limitations under the License.
  */
-package io.seata.rm.datasource.sql.druid;
+package io.seata.rm.datasource.sql.druid.oracle;
 
 import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
-import com.alibaba.druid.sql.ast.expr.SQLBetweenExpr;
 import com.alibaba.druid.sql.ast.expr.SQLBinaryOpExpr;
-import com.alibaba.druid.sql.ast.expr.SQLInListExpr;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
-import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlDeleteStatement;
 import com.alibaba.druid.sql.dialect.mysql.visitor.MySqlOutputVisitor;
+import com.alibaba.druid.sql.dialect.oracle.ast.stmt.OracleDeleteStatement;
+import com.alibaba.druid.sql.dialect.oracle.visitor.OracleOutputVisitor;
 import io.seata.rm.datasource.ParametersHolder;
 import io.seata.rm.datasource.sql.SQLDeleteRecognizer;
 import io.seata.rm.datasource.sql.SQLType;
+import io.seata.rm.datasource.sql.druid.BaseRecognizer;
 
 import java.util.ArrayList;
 import java.util.List;
 
 /**
- * The type My sql delete recognizer.
+ * The type oralce delete recognizer.
  *
- * @author sharajava
+ * @author ccg
+ * @date 2019/3/25
  */
-public class MySQLDeleteRecognizer extends BaseRecognizer implements SQLDeleteRecognizer {
+public class OracleDeleteRecognizer extends BaseRecognizer implements SQLDeleteRecognizer {
 
-    private final MySqlDeleteStatement ast;
+    private final OracleDeleteStatement ast;
 
     /**
      * Instantiates a new My sql delete recognizer.
@@ -45,9 +46,9 @@ public class MySQLDeleteRecognizer extends BaseRecognizer implements SQLDeleteRe
      * @param originalSQL the original sql
      * @param ast         the ast
      */
-    public MySQLDeleteRecognizer(String originalSQL, SQLStatement ast) {
+    public OracleDeleteRecognizer(String originalSQL, SQLStatement ast) {
         super(originalSQL);
-        this.ast = (MySqlDeleteStatement) ast;
+        this.ast = (OracleDeleteStatement) ast;
     }
 
     @Override
@@ -63,7 +64,7 @@ public class MySQLDeleteRecognizer extends BaseRecognizer implements SQLDeleteRe
     @Override
     public String getTableName() {
         StringBuffer sb = new StringBuffer();
-        MySqlOutputVisitor visitor = new MySqlOutputVisitor(sb) {
+        OracleOutputVisitor visitor = new OracleOutputVisitor(sb) {
 
             @Override
             public boolean visit(SQLExprTableSource x) {
@@ -83,15 +84,7 @@ public class MySQLDeleteRecognizer extends BaseRecognizer implements SQLDeleteRe
         }
         StringBuffer sb = new StringBuffer();
         MySqlOutputVisitor visitor = super.createMySqlOutputVisitor(parametersHolder, paramAppenders, sb);
-        if (where instanceof SQLBinaryOpExpr) {
-            visitor.visit((SQLBinaryOpExpr) where);
-        } else if (where instanceof SQLInListExpr) {
-            visitor.visit((SQLInListExpr) where);
-        } else if (where instanceof SQLBetweenExpr) {
-            visitor.visit((SQLBetweenExpr) where);
-        } else {
-            throw new IllegalArgumentException("unexpected WHERE expr: " + where.getClass().getSimpleName());
-        }
+        visitor.visit((SQLBinaryOpExpr) where);
         return sb.toString();
     }
 

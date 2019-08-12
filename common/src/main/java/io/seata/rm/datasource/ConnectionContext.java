@@ -18,7 +18,11 @@ package io.seata.rm.datasource;
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.rm.datasource.undo.SQLUndoLog;
 
-import java.util.*;
+import java.util.ArrayList;
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.List;
+import java.util.Set;
 
 /**
  * The type Connection context.

@@ -15,7 +15,12 @@
  */
 package io.seata.rm.datasource.undo.parser;
 
-import io.protostuff.*;
+import io.protostuff.Input;
+import io.protostuff.LinkedBuffer;
+import io.protostuff.Output;
+import io.protostuff.Pipe;
+import io.protostuff.ProtostuffIOUtil;
+import io.protostuff.Schema;
 import io.protostuff.WireFormat.FieldType;
 import io.protostuff.runtime.DefaultIdStrategy;
 import io.protostuff.runtime.Delegate;
@@ -39,8 +44,8 @@ import java.sql.Timestamp;
 public class ProtostuffUndoLogParser implements UndoLogParser {
 
     public static final String NAME = "protostuff";
-    
-    private final static DefaultIdStrategy ID_STRATEGY = ((DefaultIdStrategy) RuntimeEnv.ID_STRATEGY);
+
+    private final static DefaultIdStrategy ID_STRATEGY = (DefaultIdStrategy) RuntimeEnv.ID_STRATEGY;
 
     static {
         ID_STRATEGY.registerDelegate(new DateDelegate());
@@ -85,7 +90,7 @@ public class ProtostuffUndoLogParser implements UndoLogParser {
 
     /**
      * Delegate for java.sql.Timestamp
-     * 
+     *
      * @author zhangsen
      */
     public static class TimestampDelegate implements Delegate<Timestamp> {
