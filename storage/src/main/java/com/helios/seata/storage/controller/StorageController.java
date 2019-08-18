@@ -35,6 +35,11 @@ public class StorageController {
         storageService.batchInsert();
     }
 
+    @GetMapping(value = "/batch/insert/oracle")
+    public void batchInsertOracle() throws SQLException {
+        storageService.batchInsertOracle();
+    }
+
     @GetMapping(value = "/batch/update/mulity")
     public void batchUpdateMulityCond() {
         try {

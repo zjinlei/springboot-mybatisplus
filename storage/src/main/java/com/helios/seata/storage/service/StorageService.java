@@ -12,6 +12,7 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
+import java.sql.Statement;
 import java.util.Arrays;
 
 @Service
@@ -45,16 +46,48 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         storage1.setId(123l);
         storage1.setCommodityCode("9001");
         storage1.setCount(11);
-        Storage storage2 = new Storage();
+     /*   Storage storage2 = new Storage();
         storage2.setId(223l);
         storage2.setCommodityCode("9002");
         storage2.setCount(22);
         Storage storage3 = new Storage();
         storage3.setId(323l);
         storage3.setCommodityCode("9003");
-        storage3.setCount(33);
-        storageMapper.insertBatch(Arrays.asList(storage1, storage2, storage3));
+        storage3.setCount(33);*/
+        storageMapper.insertBatch(Arrays.asList(storage1));
         System.out.println(1 / 0);
+    }
+
+    @GlobalTransactional
+    public void batchInsertOracle() throws SQLException {
+        Connection connection = null;
+        PreparedStatement preparedStatement = null;
+        try {
+            connection = dataSource.getConnection();
+            connection.setAutoCommit(false);
+            String sql = "insert into storage_tbl (id,commodity_code,count) values(?,?,33)";
+            preparedStatement = connection.prepareStatement(sql);
+            preparedStatement.setLong(1, 11);
+            preparedStatement.setString(2, "10001");
+            //preparedStatement.setInt(3, 10);
+           preparedStatement.addBatch();
+            preparedStatement.setLong(1, 12);
+            preparedStatement.setString(2, "20002");
+           // preparedStatement.setInt(3, 20);
+            preparedStatement.addBatch();
+            preparedStatement.setLong(1, 13);
+           preparedStatement.setString(2, "30003");
+           // preparedStatement.setInt(3, 30);
+            preparedStatement.addBatch();
+            preparedStatement.executeBatch();
+            connection.commit();
+            System.out.println(1 / 0);
+        } catch (Exception e) {
+            throw e;
+        } finally {
+            connection.close();
+            preparedStatement.close();
+        }
     }
 
     @GlobalTransactional

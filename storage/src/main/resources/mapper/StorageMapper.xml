@@ -11,10 +11,10 @@
     <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >-->
       <!--SELECT LAST_INSERT_ID()-->
     <!--</selectKey>-->
-    insert into storage_tbl (commodity_code, count)
+    insert into storage_tbl (id,commodity_code, count)
     values
     <foreach collection="list" item="item" index="index" separator=",">
-      (#{item.commodityCode,jdbcType=VARCHAR}, #{item.count,jdbcType=INTEGER})
+      (#{item.id},#{item.commodityCode,jdbcType=VARCHAR}, #{item.count,jdbcType=INTEGER})
     </foreach>
   </insert>
 

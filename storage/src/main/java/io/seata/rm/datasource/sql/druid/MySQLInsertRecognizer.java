@@ -19,6 +19,7 @@ import com.alibaba.druid.sql.ast.SQLExpr;
 import com.alibaba.druid.sql.ast.SQLStatement;
 import com.alibaba.druid.sql.ast.expr.SQLIdentifierExpr;
 import com.alibaba.druid.sql.ast.expr.SQLValuableExpr;
+import com.alibaba.druid.sql.ast.expr.SQLVariantRefExpr;
 import com.alibaba.druid.sql.ast.statement.SQLExprTableSource;
 import com.alibaba.druid.sql.ast.statement.SQLInsertStatement;
 import com.alibaba.druid.sql.dialect.mysql.ast.statement.MySqlInsertStatement;
@@ -47,7 +48,7 @@ public class MySQLInsertRecognizer extends BaseRecognizer implements SQLInsertRe
      */
     public MySQLInsertRecognizer(String originalSQL, SQLStatement ast) {
         super(originalSQL);
-        this.ast = (MySqlInsertStatement)ast;
+        this.ast = (MySqlInsertStatement) ast;
     }
 
     @Override
@@ -104,6 +105,8 @@ public class MySQLInsertRecognizer extends BaseRecognizer implements SQLInsertRe
             for (SQLExpr expr : valuesClause.getValues()) {
                 if (expr instanceof SQLValuableExpr) {
                     row.add(((SQLValuableExpr)expr).getValue());
+                } else if (expr instanceof SQLVariantRefExpr) {
+                    row.add(((SQLVariantRefExpr)expr).getName());
                 } else {
                     throw new SQLParsingException("Unknown SQLExpr: " + expr.getClass() + " " + expr);
                 }
