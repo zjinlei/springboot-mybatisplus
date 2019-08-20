@@ -103,9 +103,8 @@ public class InsertExecutor<T, S extends Statement> extends AbstractDMLBaseExecu
                     break;
                 }
             }
-            int insertParamsSize = preparedStatementProxy.getParameters().length;
             //all parameters are Prepared Statements
-            if (insertColumnsSize == insertParamsSize) {
+            if (insertColumnsSize == preparedStatementProxy.getParameters().length) {
                 pkValues = preparedStatementProxy.getParamsByIndex(pkIndex);
             } else {
                 //some parameters are Prepared Statements: values (1, 100, ?)

@@ -40,7 +40,7 @@ public class StorageController {
         storageService.batchInsertOracle();
     }
 
-    @GetMapping(value = "/batch/update/mulity")
+    @GetMapping(value = "/batch/update")
     public void batchUpdateMulityCond() {
         try {
             storageService.batchUpdateMulityCond();
@@ -49,7 +49,7 @@ public class StorageController {
         }
     }
 
-    @GetMapping(value = "/batch/delete/mulity")
+    @GetMapping(value = "/batch/delete")
     public void batchDeleteMulityCond() {
         try {
             storageService.batchDeleteMulityCond();
