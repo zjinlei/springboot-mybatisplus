@@ -15,6 +15,18 @@
  */
 package io.seata.rm.datasource.exec;
 
+import java.sql.ResultSet;
+import java.sql.SQLException;
+import java.sql.Statement;
+import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
+import java.util.stream.Collectors;
+
+import com.alibaba.druid.pool.DruidPooledPreparedStatement;
+import com.alibaba.druid.pool.DruidPooledStatement;
+import com.mysql.jdbc.JDBC4Connection;
+import com.mysql.jdbc.JDBC4PreparedStatement;
 import io.seata.common.exception.NotSupportYetException;
 import io.seata.common.exception.ShouldNeverHappenException;
 import io.seata.rm.datasource.PreparedStatementProxy;
@@ -27,14 +39,6 @@ import io.seata.rm.datasource.sql.struct.TableMeta;
 import io.seata.rm.datasource.sql.struct.TableRecords;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
-
-import java.sql.ResultSet;
-import java.sql.SQLException;
-import java.sql.Statement;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Map;
-import java.util.stream.Collectors;
 
 /**
  * The type Insert executor.
@@ -151,7 +155,7 @@ public class InsertExecutor<T, S extends Statement> extends AbstractDMLBaseExecu
             throw new ShouldNeverHappenException();
         }
 
-        ResultSet genKeys = null;
+ /*       ResultSet genKeys = null;
         try {
             genKeys = statementProxy.getTargetStatement().getGeneratedKeys();
         } catch (SQLException e) {
@@ -165,11 +169,35 @@ public class InsertExecutor<T, S extends Statement> extends AbstractDMLBaseExecu
                 throw e;
             }
         }
-        List<Object> pkValues = new ArrayList<>();
+        List<Object> pkValues2 = new ArrayList<>();
         while (genKeys.next()) {
             Object v = genKeys.getObject(1);
-            pkValues.add(v);
+            pkValues2.add(v);
+        }*/
+        List<Object> pkValues = new ArrayList<>();
+        Statement statement = statementProxy.getTargetStatement();
+        if (statement instanceof DruidPooledPreparedStatement) {
+            Long lastInsertID = null;
+            int updateCount = 0;
+            if (((DruidPooledPreparedStatement) statement).getStatement() instanceof JDBC4PreparedStatement) {
+                JDBC4PreparedStatement jdbc4PreparedStatement = (JDBC4PreparedStatement) ((DruidPooledPreparedStatement) statement).getStatement();
+                lastInsertID = jdbc4PreparedStatement.getLastInsertID();
+                updateCount = jdbc4PreparedStatement.getUpdateCount();
+                if (updateCount == 1) {
+                    pkValues.add(lastInsertID);
+                } else if (updateCount > 1) {
+                    JDBC4Connection jdbc4Connection = (JDBC4Connection) jdbc4PreparedStatement.getConnection();
+                    int autoIncrementIncrement = jdbc4Connection.getAutoIncrementIncrement();
+                    for (int i = 0; i < updateCount; i++) {
+                        lastInsertID = lastInsertID + autoIncrementIncrement * i;
+                        pkValues.add(lastInsertID);
+                    }
+                }
+            }
+        } else if (statement instanceof DruidPooledStatement) {
+
         }
+        System.out.println(1/0);
         return pkValues;
     }
 }

@@ -1,10 +1,14 @@
 package com.helios.seata.storage.persistence;
 
 import com.baomidou.mybatisplus.annotations.TableField;
+import com.baomidou.mybatisplus.annotations.TableId;
 import com.baomidou.mybatisplus.annotations.TableName;
+import com.baomidou.mybatisplus.enums.IdType;
 
 @TableName(value = "storage_tbl")
 public class Storage {
+
+    @TableId(type = IdType.AUTO)
     private Long id;
 
     @TableField(value = "commodity_code")
