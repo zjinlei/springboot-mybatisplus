@@ -28,8 +28,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
     public void deduct(String commodityCode, int count) {
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
-        storageMapper.updateById(storage);
-        System.out.println(1 / 0);
+        this.updateById(storage);
     }
 
     @GlobalLock
@@ -64,7 +63,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         PreparedStatement preparedStatement = null;
         try {
             connection = dataSource.getConnection();
-            connection.setAutoCommit(false);
+            connection.setAutoCommit(true);
             String sql = "insert into storage_tbl (id,commodity_code,count) values(?,?,?)";
             preparedStatement = connection.prepareStatement(sql);
             preparedStatement.setLong(1, 11);
@@ -79,8 +78,25 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             preparedStatement.setString(2, "30003");
             preparedStatement.setInt(3, 30);
             preparedStatement.addBatch();
-            preparedStatement.executeBatch();
-            connection.commit();
+            try{
+                preparedStatement.executeBatch();
+            }catch (Exception e){
+                System.out.println("-----------123----------------------");
+            }
+           // connection.commit();
+            Storage storage1 = new Storage();
+            storage1.setId(null);
+            storage1.setCommodityCode("9001");
+            storage1.setCount(11);
+            Storage storage2 = new Storage();
+            storage2.setId(null);
+            storage2.setCommodityCode("9002");
+            storage2.setCount(22);
+            Storage storage3 = new Storage();
+            storage3.setId(null);
+            storage3.setCommodityCode("9003");
+            storage3.setCount(33);
+            storageMapper.insertBatch(Arrays.asList(storage1,storage2,storage3));
             System.out.println(1 / 0);
         } catch (Exception e) {
             throw e;
