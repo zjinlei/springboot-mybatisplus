@@ -34,7 +34,7 @@ public class GitHubData {
     public static List<Commits> getJsonArray(String url, int page, int size, Map<String, String> paramMap) {
         paramMap.put("page", String.valueOf(page));
         paramMap.put("per_page", String.valueOf(size));
-        paramMap.put("access_token", "8aca3467ea508d29060ad339717494cd8c0e0d0d");
+        paramMap.put("access_token", "");
         String issue = HttpUtil.sendHttpsGet(url, new HashMap<String, String>(), paramMap);
         List<Commits> commits = new Gson().fromJson(issue, new TypeToken<List<Commits>>() {}.getType());
         return commits;
