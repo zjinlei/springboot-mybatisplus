@@ -14,6 +14,7 @@ public class SeataRestTemplateInterceptor implements ClientHttpRequestIntercepto
     public SeataRestTemplateInterceptor() {
     }
 
+    @Override
     public ClientHttpResponse intercept(HttpRequest httpRequest, byte[] bytes, ClientHttpRequestExecution clientHttpRequestExecution) throws IOException {
         HttpRequestWrapper requestWrapper = new HttpRequestWrapper(httpRequest);
         String xid = RootContext.getXID();

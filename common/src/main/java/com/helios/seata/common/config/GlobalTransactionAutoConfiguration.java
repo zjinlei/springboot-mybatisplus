@@ -1,3 +1,4 @@
+/*
 package com.helios.seata.common.config;
 
 import com.helios.seata.common.SeataProperties;
@@ -35,3 +36,4 @@ public class GlobalTransactionAutoConfiguration {
         new GlobalTransactionScanner("ap", "-fescar-service-group");
     }
 }
+*/

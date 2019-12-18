@@ -3,6 +3,7 @@ package com.helios.seata.storage.service;
 import com.baomidou.mybatisplus.service.impl.ServiceImpl;
 import com.helios.seata.storage.persistence.Storage;
 import com.helios.seata.storage.persistence.StorageMapper;
+import io.seata.core.context.RootContext;
 import io.seata.spring.annotation.GlobalLock;
 import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -12,7 +13,6 @@ import javax.sql.DataSource;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
-import java.sql.Statement;
 import java.util.Arrays;
 
 @Service
@@ -26,9 +26,11 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
 
     @GlobalTransactional
     public void deduct(String commodityCode, int count) {
+        System.out.println("storage XID " + RootContext.getXID());
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
-        this.updateById(storage);
+        storageMapper.updateBatch(Arrays.asList(storage.getId()), storage.getCommodityCode());
+        //this.updateById(storage);
     }
 
     @GlobalLock
