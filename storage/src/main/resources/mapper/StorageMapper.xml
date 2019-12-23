@@ -22,7 +22,7 @@
     <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >-->
     <!--SELECT LAST_INSERT_ID()-->
     <!--</selectKey>-->
-    update storage_tbl set count = 100
+    update `storage_tbl` set count = 100
     WHERE id IN
     <foreach collection="list" index="index" item="item" open="(" separator="," close=")">
       #{item}
