@@ -17,7 +17,7 @@
     </modules>
 
     <properties>
-        <seata.version>1.0.0-pre</seata.version>
+        <seata.version>1.0.0</seata.version>
         <spring-cloud.version>Finchley.SR2</spring-cloud.version>
         <spring-boot.version>2.0.6.RELEASE</spring-boot.version>
         <druid-spring-boot-starter.version>1.1.10</druid-spring-boot-starter.version>

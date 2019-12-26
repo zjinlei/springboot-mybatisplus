@@ -57,7 +57,7 @@ seata.transport.heartbeat=true
 seata.transport.serialization=seata
 seata.transport.compressor=none
 
-seata.config.type=file
+seata.config.type=nacos
 
 seata.config.file.name=file.conf
 
@@ -75,7 +75,7 @@ seata.config.zk.server-addr=127.0.0.1:2181
 seata.config.zk.session-timeout=6000
 seata.config.zk.connect-timeout=2000
 
-seata.registry.type=file
+seata.registry.type=nacos
 
 seata.registry.file.name=file.conf
 
