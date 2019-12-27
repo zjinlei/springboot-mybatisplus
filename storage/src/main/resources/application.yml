@@ -58,7 +58,7 @@ seata:
     compressor: none
     enable-client-batch-send-request: true
   config:
-    type: nacos
+    type: file
     file:
       name: file.conf
     consul:
@@ -76,7 +76,7 @@ seata:
       session-timeout: 6000
       connect-timeout: 2000
   registry:
-    type: nacos
+    type: file
     file:
       name: file.conf
     consul:
