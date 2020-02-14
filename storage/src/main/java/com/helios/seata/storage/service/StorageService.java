@@ -29,8 +29,8 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         System.out.println("storage XID " + RootContext.getXID());
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
-        storageMapper.updateBatch(Arrays.asList(storage.getId()), storage.getCommodityCode());
-        //this.updateById(storage);
+        this.updateById(storage);
+        //System.out.println(1/0);
     }
 
     @GlobalLock
