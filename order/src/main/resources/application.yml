@@ -1,44 +1,37 @@
+server:
+  port: 8082
 spring:
-  application:
-    name: storage-service
   datasource:
-    url: jdbc:mysql://127.0.0.1:3306/db_storage?useSSL=false&serverTimezone=UTC
+    type: com.alibaba.druid.pool.DruidDataSource
+    driver-class-name: com.mysql.jdbc.Driver
+    url: jdbc:mysql://127.0.0.1:3306/db_order?useSSL=false&serverTimezone=UTC
     username: root
     password: 123456
-
-server:
-  port: 8081
-
 seata:
   enabled: true
-  application-id: test
-  tx-service-group: my_test_tx_222group
-  enable-auto-data-source-proxy: true
-  use-jdk-proxy: false
+  application-id: order-service
+  tx-service-group: my_test_tx_group
   client:
+    rm-async-commit-buffer-limit: 1000
+    rm-report-retry-count: 5
+    rm-table-meta-check-enable: false
+    rm-report-success-enable: true
     rm:
-      async-commit-buffer-limit: 1000
-      report-retry-count: 5
-      table-meta-check-enable: false
-      report-success-enable: true
       lock:
-        retry-interval: 10
-        retry-times: 30
-        retry-policy-branch-rollback-on-conflict: true
-    tm:
-      commit-retry-count: 5
-      rollback-retry-count: 5
+        lock-retry-interval: 10
+        lock-retry-times: 30
+        lock-retry-policy-branch-rollback-on-conflict: true
+    tm-commit-retry-count: 5
+    tm-rollback-retry-count: 5
     undo:
-      data-validation: true
-      log-serialization: jackson
-      log-table: undo_log
+      undo-data-validation: true
+      undo-log-serialization: jackson
+      undo-log-table: undo_log
     log:
       exceptionRate: 100
   service:
-    vgroup-mapping:
-      my_test_tx_222group: default22
-    grouplist:
-      default22: 127.0.0.1:8091
+    vgroup-mapping: default
+    grouplist: 127.0.0.1:8091
     enable-degrade: false
     disable-global-transaction: false
   transport:
@@ -67,13 +60,11 @@ seata:
     apollo:
       apollo-meta: http://192.168.1.204:8801
       app-id: seata-server
-      namespace: application
     etcd3:
       server-addr: http://localhost:2379
     nacos:
       namespace:
       serverAddr: localhost
-      group: SEATA_GROUP
     zk:
       server-addr: 127.0.0.1:2181
       session-timeout: 6000
@@ -99,9 +90,6 @@ seata:
     redis:
       server-addr: localhost:6379
       db: 0
-      password:
-      cluster: default
-      timeout: 0
     sofa:
       server-addr: 127.0.0.1:9603
       application: default

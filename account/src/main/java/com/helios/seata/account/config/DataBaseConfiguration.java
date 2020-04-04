@@ -1,14 +1,13 @@
 package com.helios.seata.account.config;
 
+import javax.sql.DataSource;
+
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
 import io.seata.rm.datasource.DataSourceProxy;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.context.annotation.Primary;
-
-import javax.sql.DataSource;
 
 @Configuration
 public class DataBaseConfiguration {
@@ -20,15 +19,8 @@ public class DataBaseConfiguration {
         return druidDataSource;
     }
 
-    @Primary
-    @Bean("dataSource")
-    public DataSourceProxy dataSource(DataSource druidDataSource) {
-        return new DataSourceProxy(druidDataSource);
-    }
-
-
     @Bean
-    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSourceProxy druidDataSource) {
+    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSource druidDataSource) {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
         mybatisSqlSessionFactoryBean.setDataSource(druidDataSource);
         return mybatisSqlSessionFactoryBean;
