@@ -6,7 +6,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.autoconfigure.jdbc.DataSourceAutoConfiguration;
 
 @SpringBootApplication(scanBasePackages = {"com.helios.seata"}, exclude = DataSourceAutoConfiguration.class)
-@EnableAutoDataSourceProxy(useJdkProxy = true)
+@EnableAutoDataSourceProxy
 public class StorageApplication {
 
     public static void main(String[] args) {
