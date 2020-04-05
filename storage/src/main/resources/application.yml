@@ -12,7 +12,7 @@ server:
 seata:
   enabled: true
   application-id: test
-  tx-service-group: my_test_tx_222group
+  tx-service-group: my_test_tx_group
   enable-auto-data-source-proxy: true
   use-jdk-proxy: false
   client:
@@ -36,9 +36,9 @@ seata:
       exceptionRate: 100
   service:
     vgroup-mapping:
-      my_test_tx_222group: default22
+      my_test_tx_group: default
     grouplist:
-      default22: 127.0.0.1:8091
+      default: 127.0.0.1:8091
     enable-degrade: false
     disable-global-transaction: false
   transport:

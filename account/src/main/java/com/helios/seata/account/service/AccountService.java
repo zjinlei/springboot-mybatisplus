@@ -1,12 +1,12 @@
 package com.helios.seata.account.service;
 
+import java.math.BigDecimal;
+
 import com.helios.seata.account.persistence.Account;
 import com.helios.seata.account.persistence.AccountMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-
-import java.math.BigDecimal;
 
 @Service
 public class AccountService {
@@ -15,7 +15,6 @@ public class AccountService {
 
     @Autowired
     private AccountMapper accountMapper;
-
 
     @Transactional(rollbackFor = Exception.class)
     public void debit(String userId, BigDecimal num) {
