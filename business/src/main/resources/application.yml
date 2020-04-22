@@ -9,16 +9,16 @@ seata:
   client:
     rm:
       async-commit-buffer-limit: 1000
-      report-retry-count: 1
-      table-meta-check-enable: true
-      report-success-enable: false
+      report-retry-count: 5
+      table-meta-check-enable: false
+      report-success-enable: true
       lock:
         retry-interval: 10
-        retry-times: 10
-        retry-policy-branch-rollback-on-conflict: false
+        retry-times: 30
+        retry-policy-branch-rollback-on-conflict: true
     tm:
-      commit-retry-count: 1
-      rollback-retry-count: 1
+      commit-retry-count: 5
+      rollback-retry-count: 5
     undo:
       data-validation: true
       log-serialization: jackson

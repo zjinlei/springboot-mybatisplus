@@ -35,7 +35,7 @@ public class BusinessController {
         try {
             businessService.purchase("1002", "2001", 1);
         } catch (Exception e) {
-            e.printStackTrace();
+            System.out.println("global rollback by participant?");
             return false;
         }
 

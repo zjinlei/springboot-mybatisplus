@@ -19,7 +19,7 @@ public class AccountClient {
         try {
             restTemplate.getForEntity(url, Void.class);
         } catch (Exception e) {
-            log.error("debit url {} ,error:", url, e);
+            log.error("debit url {} ,error:", url);
             throw new RuntimeException();
         }
     }
