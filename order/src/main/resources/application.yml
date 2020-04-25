@@ -18,7 +18,7 @@ seata:
       async-commit-buffer-limit: 1000
       report-retry-count: 5
       table-meta-check-enable: false
-      report-success-enable: true
+      report-success-enable: false
       lock:
         retry-interval: 10
         retry-times: 30
@@ -36,7 +36,7 @@ seata:
     vgroup-mapping:
       my_test_tx_group: default
     grouplist:
-      default22: 127.0.0.1:8091
+      default: 127.0.0.1:8091
     enable-degrade: false
     disable-global-transaction: false
   transport:
