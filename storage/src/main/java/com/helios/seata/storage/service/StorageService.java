@@ -30,7 +30,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
         this.updateById(storage);
-        //System.out.println(1/0);
+        System.out.println(1/0);
     }
 
     @GlobalLock
