@@ -18,7 +18,6 @@ public class OrderService {
     @Autowired
     private OrderMapper orderMapper;
 
-    @Transactional
     public void create(String userId, String commodityCode, Integer count) {
         BigDecimal orderMoney = new BigDecimal(count).multiply(new BigDecimal(5));
         Order order = new Order();

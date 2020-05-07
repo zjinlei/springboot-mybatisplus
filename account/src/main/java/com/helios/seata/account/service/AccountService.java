@@ -16,7 +16,6 @@ public class AccountService {
     @Autowired
     private AccountMapper accountMapper;
 
-    @Transactional(rollbackFor = Exception.class)
     public void debit(String userId, BigDecimal num) {
         Account account = accountMapper.findByUserId(userId);
         account.setMoney(account.getMoney().subtract(num));
