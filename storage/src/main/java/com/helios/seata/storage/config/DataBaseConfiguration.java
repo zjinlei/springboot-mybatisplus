@@ -5,9 +5,11 @@ import java.io.IOException;
 
 import com.alibaba.druid.pool.DruidDataSource;
 import com.baomidou.mybatisplus.spring.MybatisSqlSessionFactoryBean;
+import io.seata.rm.datasource.xa.DataSourceProxyXA;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
+import org.springframework.context.annotation.Primary;
 import org.springframework.core.io.support.ResourcePatternResolver;
 
 @Configuration
@@ -20,10 +22,16 @@ public class DataBaseConfiguration {
         return druidDataSource;
     }
 
+    @Primary
+    @Bean("dataSourceProxy")
+    public DataSource dataSource(DataSource dataSource) {
+        return new DataSourceProxyXA(dataSource);
+    }
+
     @Bean
-    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSource druidDataSource, ResourcePatternResolver resourcePatternResolver) throws IOException {
+    public MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean(DataSource dataSourceProxyXA, ResourcePatternResolver resourcePatternResolver) throws IOException {
         MybatisSqlSessionFactoryBean mybatisSqlSessionFactoryBean = new MybatisSqlSessionFactoryBean();
-        mybatisSqlSessionFactoryBean.setDataSource(druidDataSource);
+        mybatisSqlSessionFactoryBean.setDataSource(dataSourceProxyXA);
         mybatisSqlSessionFactoryBean.setMapperLocations(resourcePatternResolver.getResources("classpath:mapper/*.xml"));
         return mybatisSqlSessionFactoryBean;
     }

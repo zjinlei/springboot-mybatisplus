@@ -6,26 +6,26 @@
         <sourceOutputDir name="target/generated-sources/annotations" />
         <sourceTestOutputDir name="target/generated-test-sources/test-annotations" />
         <outputRelativeToContentRoot value="true" />
-        <module name="account" />
         <module name="business" />
         <module name="common" />
-        <module name="order" />
         <module name="storage" />
+        <module name="account" />
+        <module name="order" />
       </profile>
     </annotationProcessing>
     <bytecodeTargetLevel>
-      <module name="account" target="1.8" />
-      <module name="business" target="1.8" />
-      <module name="common" target="1.8" />
-      <module name="order" target="1.8" />
+      <module name="account" target="${maven.compiler.target}" />
+      <module name="business" target="${maven.compiler.target}" />
+      <module name="common" target="${maven.compiler.target}" />
+      <module name="order" target="${maven.compiler.target}" />
       <module name="sbmbp-account" target="1.8" />
       <module name="sbmbp-business" target="1.8" />
       <module name="sbmbp-order" target="1.8" />
       <module name="sbmbp-storage" target="1.8" />
       <module name="sbmbp-test" target="1.8" />
       <module name="sbmbp-user" target="1.8" />
-      <module name="springboot-mybatisplus" target="1.8" />
-      <module name="storage" target="1.8" />
+      <module name="springboot-mybatisplus" target="${maven.compiler.target}" />
+      <module name="storage" target="${maven.compiler.target}" />
     </bytecodeTargetLevel>
   </component>
 </project>

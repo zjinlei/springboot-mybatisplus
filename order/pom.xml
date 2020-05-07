@@ -13,20 +13,6 @@
 
 	<dependencies>
 		<dependency>
-			<groupId>com.cloudhelios.atlantis</groupId>
-			<artifactId>helios-core</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>javax.servlet</groupId>
-					<artifactId>servlet-api</artifactId>
-				</exclusion>
-				<exclusion>
-					<groupId>com.alibaba</groupId>
-					<artifactId>druid</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<dependency>
 			<groupId>com.helios.seata</groupId>
 			<artifactId>common</artifactId>
 		</dependency>
@@ -49,21 +35,6 @@
 					<artifactId>mybatis-plus-generator</artifactId>
 				</exclusion>
 			</exclusions>
-		</dependency>
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework</groupId>
-			<artifactId>spring-test</artifactId>
-			<scope>test</scope>
-		</dependency>
-		<dependency>
-			<groupId>org.springframework.boot</groupId>
-			<artifactId>spring-boot-test</artifactId>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 
