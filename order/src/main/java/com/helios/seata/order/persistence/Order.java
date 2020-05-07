@@ -1,18 +1,12 @@
 package com.helios.seata.order.persistence;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
-
 import java.math.BigDecimal;
 
-@TableName("order_tbl")
 public class Order {
     private Long id;
 
-    @TableField(value = "user_id")
     private String userId;
 
-    @TableField(value = "commodity_code")
     private String commodityCode;
 
     private Integer count;

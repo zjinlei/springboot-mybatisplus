@@ -1,6 +1,11 @@
 package com.helios.seata.storage.service;
 
-import com.baomidou.mybatisplus.service.impl.ServiceImpl;
+import javax.sql.DataSource;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.SQLException;
+import java.util.Arrays;
+
 import com.helios.seata.storage.persistence.Storage;
 import com.helios.seata.storage.persistence.StorageMapper;
 import io.seata.core.context.RootContext;
@@ -9,14 +14,8 @@ import io.seata.spring.annotation.GlobalTransactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import javax.sql.DataSource;
-import java.sql.Connection;
-import java.sql.PreparedStatement;
-import java.sql.SQLException;
-import java.util.Arrays;
-
 @Service
-public class StorageService extends ServiceImpl<StorageMapper, Storage> {
+public class StorageService {
 
 
     @Autowired
@@ -29,8 +28,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         System.out.println("storage XID " + RootContext.getXID());
         Storage storage = storageMapper.findByCommodityCode(commodityCode);
         storage.setCount(storage.getCount() - count);
-        this.updateById(storage);
-        System.out.println(1/0);
+        storageMapper.updateById(storage);
     }
 
     @GlobalLock
@@ -55,7 +53,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
         storage3.setId(null);
         storage3.setCommodityCode("9003");
         storage3.setCount(33);
-        storageMapper.insertBatch(Arrays.asList(storage1,storage2,storage3));
+        storageMapper.insertBatch(Arrays.asList(storage1, storage2, storage3));
         System.out.println(1 / 0);
     }
 
@@ -80,12 +78,12 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             preparedStatement.setString(2, "30003");
             preparedStatement.setInt(3, 30);
             preparedStatement.addBatch();
-            try{
+            try {
                 preparedStatement.executeBatch();
-            }catch (Exception e){
+            } catch (Exception e) {
                 System.out.println("-----------123----------------------");
             }
-           // connection.commit();
+            // connection.commit();
             Storage storage1 = new Storage();
             storage1.setId(null);
             storage1.setCommodityCode("9001");
@@ -98,7 +96,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             storage3.setId(null);
             storage3.setCommodityCode("9003");
             storage3.setCount(33);
-            storageMapper.insertBatch(Arrays.asList(storage1,storage2,storage3));
+            storageMapper.insertBatch(Arrays.asList(storage1, storage2, storage3));
             System.out.println(1 / 0);
         } catch (Exception e) {
             throw e;
@@ -107,6 +105,7 @@ public class StorageService extends ServiceImpl<StorageMapper, Storage> {
             preparedStatement.close();
         }
     }
+
     @GlobalTransactional
     public void batchUpdateMulityCond() throws SQLException {
         Connection connection = null;

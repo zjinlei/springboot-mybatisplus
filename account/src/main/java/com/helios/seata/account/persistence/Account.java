@@ -1,15 +1,10 @@
 package com.helios.seata.account.persistence;
 
-import com.baomidou.mybatisplus.annotations.TableField;
-import com.baomidou.mybatisplus.annotations.TableName;
-
 import java.math.BigDecimal;
 
-@TableName("account_tbl")
 public class Account {
     private Long id;
 
-    @TableField(value = "user_id")
     private String userId;
 
     private BigDecimal money;

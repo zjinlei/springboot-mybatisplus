@@ -7,6 +7,16 @@
     <result column="count" property="count" jdbcType="INTEGER" />
   </resultMap>
 
+  <select id="selectById" resultType="com.helios.seata.storage.persistence.Storage">
+        select id, commodity_code, count from storage_tbl
+        WHERE id = #{id}
+    </select>
+
+  <insert id="insert" parameterType="com.helios.seata.storage.persistence.Storage">
+        insert into storage_tbl (commodity_code, count)
+        values (#{commodityCode,jdbcType=VARCHAR}, #{count,jdbcType=INTEGER})
+    </insert>
+
   <insert id="insertBatch" parameterType="com.helios.seata.storage.persistence.Storage" >
     <!--<selectKey resultType="java.lang.Integer" keyProperty="id" order="AFTER" >-->
       <!--SELECT LAST_INSERT_ID()-->
@@ -26,4 +36,10 @@
       update storage_tbl set count = 100 WHERE id = #{item}
   </foreach>
   </update>
+
+  <update id="updateById">
+        update storage_tbl set count = #{count,jdbcType=INTEGER}
+        WHERE id = #{id}
+    </update>
+
 </mapper>
