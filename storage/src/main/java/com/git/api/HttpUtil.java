@@ -40,13 +40,14 @@ public class HttpUtil {
         } catch (Exception e) {
             // TODO: handle exception
             e.printStackTrace();
+            throw new UnsupportedOperationException("sendHttpsGet failed");
         }
-        try {
+       /* try {
             result = new String(result.getBytes("ISO-8859-1"), "utf-8");
         } catch (UnsupportedEncodingException e) {
             // TODO Auto-generated catch block
             e.printStackTrace();
-        }
+        }*/
         return result;
 
     }
