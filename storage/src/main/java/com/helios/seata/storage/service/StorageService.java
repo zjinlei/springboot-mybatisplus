@@ -42,15 +42,15 @@ public class StorageService {
     @GlobalTransactional(timeoutMills = 60000000)
     public void batchInsert() {
         Storage storage1 = new Storage();
-        storage1.setId(null);
+        storage1.setId(1L);
         storage1.setCommodityCode("9001");
         storage1.setCount(11);
         Storage storage2 = new Storage();
-        storage2.setId(null);
+        storage2.setId(3L);
         storage2.setCommodityCode("9002");
         storage2.setCount(22);
         Storage storage3 = new Storage();
-        storage3.setId(null);
+        storage3.setId(4L);
         storage3.setCommodityCode("9003");
         storage3.setCount(33);
         storageMapper.insertBatch(Arrays.asList(storage1, storage2, storage3));

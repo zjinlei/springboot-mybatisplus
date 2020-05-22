@@ -7,17 +7,17 @@ spring:
       ds0:
         type: com.zaxxer.hikari.HikariDataSource
         driver-class-name: com.mysql.jdbc.Driver
-        jdbc-url: jdbc:mysql://127.0.0.1:3306/db_storage?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/ds0?useUnicode=true&characterEncoding=UTF-8&useSSL=false
         username: root
         password: 123456
     sharding:
       tables:
-        t_account:
-          actual-data-nodes: db_storage.storage_tbl$->{0..1}
+        storage_tbl:
+          actual-data-nodes: ds0.storage_tbl$->{0..1}
           table-strategy:
             inline:
               sharding-column: id
-              algorithm-expression: storage_tbl$->{id % 2}
+              algorithm-expression: storage_tbl$->{id % 3}
     props:
       sql.show: true
 
@@ -94,7 +94,7 @@ seata:
       session-timeout: 6000
       connect-timeout: 2000
   registry:
-    type: file
+    type: nacos
     file:
       name: file.conf
     consul:
