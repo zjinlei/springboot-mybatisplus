@@ -1,10 +1,25 @@
 spring:
   application:
     name: storage-service
-  datasource:
-    url: jdbc:mysql://127.0.0.1:3306/db_storage?useSSL=false&serverTimezone=UTC
-    username: root
-    password: 123456
+  shardingsphere:
+    datasource:
+      names: ds0
+      ds0:
+        type: com.zaxxer.hikari.HikariDataSource
+        driver-class-name: com.mysql.jdbc.Driver
+        jdbc-url: jdbc:mysql://127.0.0.1:3306/db_storage?useUnicode=true&characterEncoding=UTF-8&useSSL=false
+        username: root
+        password: 123456
+    sharding:
+      tables:
+        t_account:
+          actual-data-nodes: db_storage.storage_tbl$->{0..1}
+          table-strategy:
+            inline:
+              sharding-column: id
+              algorithm-expression: storage_tbl$->{id % 2}
+    props:
+      sql.show: true
 
 server:
   port: 8081
@@ -13,7 +28,7 @@ seata:
   enabled: true
   application-id: test
   tx-service-group: my_test_tx_group
-  enable-auto-data-source-proxy: false
+  enable-auto-data-source-proxy: true
   use-jdk-proxy: false
   client:
     rm:

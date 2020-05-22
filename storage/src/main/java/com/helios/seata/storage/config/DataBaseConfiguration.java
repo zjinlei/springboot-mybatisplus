@@ -22,12 +22,6 @@ public class DataBaseConfiguration {
         return druidDataSource;
     }
 
-    @Primary
-    @Bean("dataSourceProxy")
-    public DataSource dataSource(DataSource dataSource) {
-        return new DataSourceProxyXA(dataSource);
-    }
-
     @Bean
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean factoryBean = new SqlSessionFactoryBean();
